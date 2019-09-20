@@ -28,7 +28,7 @@ def add_frame(frame, img):
     height = int(width // 1.5)
     photo = photo.resize((width, height), Image.ANTIALIAS)
 
-    new_framed.paste(photo, (0,0))
-    new_framed.paste(frame_img, (0,0), frame_img)
+    new_framed.paste(photo, (0, 0))
+    new_framed.paste(frame_img, (0, 0), frame_img)
     # TODO: decide for a normal name to tmp photo
     new_framed.save('framed.png')
