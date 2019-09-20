@@ -25,6 +25,7 @@ def add_frame(frame, img):
     new_framed = Image.new(photo.mode, frame_img.size)
 
     width = frame_img.size[0]
+    # TODO: remove hardcoded ratio
     height = int(width // 1.5)
     photo = photo.resize((width, height), Image.ANTIALIAS)
 
@@ -43,4 +44,4 @@ def create_print(photos):
         photo = Image.open(img)
         final_photo.paste(photo, positions[i])
         i += 1
-    final_photo.show()
+    final_photo.save('print.jpg')
