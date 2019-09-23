@@ -1,6 +1,10 @@
 from PIL import Image
 from glob import glob
+from shutil import copyfile
 import os
+
+
+IMG_TYPE = '.png'
 
 
 # TODO: working with errors
@@ -20,9 +24,9 @@ def psd_to_png(img):
     psd.save(img.split('.')[0] + '.png')
 
 
-def add_frame(frame, img):
-    """Add frame to a photo"""
-    frame_img = Image.open(frame)
+def add_frame(img, frame_img):
+    """Add frame to a photo
+    Note: frame has to be opened by caller"""
     photo = Image.open(img)
     new_framed = Image.new(frame_img.mode, frame_img.size)
 
@@ -33,7 +37,7 @@ def add_frame(frame, img):
     new_framed.paste(photo, (0, 0))
     new_framed.paste(frame_img, (0, 0), frame_img)
 
-    new_framed.save(img.split('.')[0] + '.png')
+    new_framed.save(img.split('.')[0] + IMG_TYPE)
     os.remove(img)
 
 
@@ -58,10 +62,33 @@ def run_over_all_photos(path, frame, save_folder, start_name_from=0):
     all_photos = glob(os.path.join(path, "*.JPG"))
     all_photos += glob(os.path.join(path, "*.jpg"))
     for photo in all_photos:
-        add_frame(frame, photo)
+        add_frame(photo, Image.open(frame))
 
-    all_photos = [x.split('.')[0] + '.png' for x in all_photos]
-    all_photos = [all_photos[x, x + 4] for x in range(0, len(all_photos), 4)]
+    # Every printable image has 4 photos (for now)
+    # So, if we have less then four photos, we don't want to continue
+    if len(all_photos) < 4:
+        return
+
+    all_photos = [x.split('.')[0] + IMG_TYPE for x in all_photos]
+    all_photos = [all_photos[x:x + 4] for x in range(0, len(all_photos), 4)]
     for photos in all_photos:
-        create_print(photos, os.path.join(save_folder, str(start_name_from) + '.png'))
+        create_print(photos, os.path.join(save_folder, str(start_name_from) + IMG_TYPE))
         start_name_from += 1
+
+
+def duplicate_file(file, number=1):
+    """Duplicate file number times"""
+    name, extension = file.split('.')
+    copy_name = name + '%s' + extension
+
+    for i in range(number):
+        try:
+            copyfile(file, copy_name % ('_copy_' + str(i) + '.'))
+        except IOError:
+            print("Error on duplicating files")
+            return
+
+
+def light_photo(photo, ratio):
+    photo = photo.point(lambda p: p * ratio)
+    return photo

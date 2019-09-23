@@ -1,6 +1,12 @@
+# IDE configuration files
 .idea
+
+# ENV and cache
 env
 __pycache__
+
+# We are working with many pictures,
+# so we dont want them in the repository
 *.JPG
 *.jpg
 *.png
