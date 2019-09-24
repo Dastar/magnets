@@ -4,7 +4,7 @@ from itertools import cycle
 from os import remove, path
 
 
-class Print:
+class FinalPrint:
     EXTENSION: str = 'png'
     MODE: str = 'RGB'
 
