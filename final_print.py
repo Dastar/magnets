@@ -15,7 +15,7 @@ class Print:
         try:
             self.frame = Image.open(frame)
         except IOError:
-            print("ERROR: Cannot open an frame, terminating program")
+            print("ERROR: Cannot open the frame, terminating program")
             exit()
 
         # getting the last file name in print folder

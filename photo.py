@@ -38,5 +38,5 @@ class Photo:
         for i in range(self.duplicate):
             self.framed.save(copy_name % '_copy_' + str(i), self.EXTENSION)
 
-    def light_photo(self, ration):
+    def light(self, ration):
         self.photo = self.photo.point(lambda p: p * ration)
