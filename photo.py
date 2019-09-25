@@ -4,7 +4,7 @@ from os import path
 
 class Photo:
     EXTENSION: str = 'png'
-    
+
     def __init__(self, image_path, duplicate=1):
         self.path = path.split(image_path)
         self.duplicate = duplicate
@@ -16,7 +16,13 @@ class Photo:
             print("Failed to open file " + self.path[1])
             return
 
-    def add_frame(self, frame: Image, position: tuple):
+    def __call__(self):
+        if self.framed is None:
+            return self.photo
+        else:
+            return self.framed
+
+    def add_frame(self, frame: Image, position: tuple = (0, 0)):
         self.framed = Image.new(frame.mode, frame.size)
         self.framed.paste(self.photo, position)
         self.framed.paste(frame, (0, 0), frame)
@@ -36,7 +42,10 @@ class Photo:
             return
 
         for i in range(self.duplicate):
-            self.framed.save(copy_name % '_copy_' + str(i), self.EXTENSION)
+            self.framed.save(
+                path.join(self.path[0],
+                          copy_name % ('_copy_' + str(i))),
+                self.EXTENSION)
 
     def light(self, ration):
         self.photo = self.photo.point(lambda p: p * ration)

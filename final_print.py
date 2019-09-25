@@ -20,10 +20,16 @@ class FinalPrint:
 
         # getting the last file name in print folder
         all_prints = glob(path.join(print_folder, '*.' + self.EXTENSION))
-        all_prints = [int(x.split('.')[0]) for x in all_prints]
-        all_prints.sort()
+        if all_prints and False:
+            all_prints = [int(x.split('.')[0]) for x in all_prints]
+            all_prints.sort()
 
-        self.print_name = all_prints[-1]
+            self.print_name = all_prints[-1]
+        else:
+            self.print_name = 1
+
+    def __call__(self):
+        return self.frame
 
     def create_print(self, row=2, column=2, print_size=(2400, 1800)):
         """Creating pictures to print out of all framed pictures"""
