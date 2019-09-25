@@ -2,7 +2,7 @@ import subprocess
 
 
 class Printer:
-    def __init__(self, printer: str, default=[]):
+    def __init__(self, printer: str, default: list = []):
         self.printer = printer
         self.default = default
 

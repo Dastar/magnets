@@ -1,5 +1,5 @@
 from PIL import Image
-from os import path
+from os import path, remove
 
 
 class Photo:
@@ -46,6 +46,8 @@ class Photo:
                 path.join(self.path[0],
                           copy_name % ('_copy_' + str(i))),
                 self.EXTENSION)
+
+        remove(path.join(self.path[0], self.path[1]))
 
     def light(self, ration):
         self.photo = self.photo.point(lambda p: p * ration)
